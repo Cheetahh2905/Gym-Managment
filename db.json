@@ -1,0 +1,70 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "123456",
+      "role": "admin"
+    },
+    {
+      "id": "7eac",
+      "username": "phuctt",
+      "password": "29052002",
+      "role": "user"
+    },
+    {
+      "id": "a189",
+      "username": "admin2",
+      "password": "123456",
+      "role": "admin"
+    },
+    {
+      "id": "9738",
+      "username": "phuc29",
+      "password": "29052002",
+      "role": "user"
+    }
+  ],
+  "members": [
+    {
+      "id": "1",
+      "name": "Nguyễn Văn A",
+      "gender": "Nam",
+      "phone": "0901234567",
+      "email": "vana@gmail.com",
+      "membership": "Gói tháng",
+      "startDate": "2025-08-01",
+      "endDate": "2025-08-31",
+      "status": "Ngưng hoạt động"
+    },
+    {
+      "id": "2",
+      "name": "Trần Trọng Phúc",
+      "gender": "Nam",
+      "phone": "0789547871",
+      "email": "pt002269@gmail.com",
+      "membership": "Gói năm",
+      "startDate": "2025-08-07",
+      "endDate": "2026-08-07",
+      "status": "Đang hoạt động"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "t1",
+      "userId": "7eac",
+      "type": "income",
+      "amount": 2000000,
+      "description": "Bán gói tập tháng",
+      "date": "2025-08-07"
+    },
+    {
+      "id": "t2",
+      "userId": "7eac",
+      "type": "expense",
+      "amount": 200000,
+      "description": "Mua phụ kiện",
+      "date": "2025-08-10"
+    }
+  ]
+}
