@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { deleteMember, getMembers } from "../utils/Members";
 import { Box, Typography, Card, CardContent, CardActions, Button, Grid } from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 export default function Members() {
     const [members, setMembers] = useState([]);
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-
+    const navigate = useNavigate();
     useEffect(() => {
         getMembers().then(setMembers);
     }, []);
@@ -41,7 +42,15 @@ export default function Members() {
                                         <Button size="small" color="error" variant="outlined" onClick={() => handleDeleteMember(member.id)}>
                                             Delete
                                         </Button>
-                                        <Button size="small" color="primary" variant="outlined">Edit</Button>
+
+                                        <Button
+                                            size="small"
+                                            color="primary"
+                                            variant="outlined"
+                                            onClick={() => navigate(`/home/edit-member/${member.id}`)}
+                                        >
+                                            Edit
+                                        </Button>
                                     </>
                                 )}
                                 {currentUser?.role === "user" && (

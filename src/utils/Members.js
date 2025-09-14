@@ -36,7 +36,7 @@ export async function addMember(newMember) {
 }
 
 // Cập nhật member
-export async function updateMember(updatedMember) {
+export async function updateMember(id,updatedMember) {
     try {
         const response = await axios.put(`${URL_Members}/${updatedMember.id}`, updatedMember);
         return response.data;
@@ -44,4 +44,9 @@ export async function updateMember(updatedMember) {
         console.error(`Error updating member with id ${updatedMember.id}:`, error);
         throw error;
     }
+}
+
+export async function getAllMembers(id) {
+    const response = await axios.get(`${URL_Members}/${id}`);
+    return response.data;
 }

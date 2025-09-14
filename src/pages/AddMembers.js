@@ -53,7 +53,7 @@ export default function AddMembers() {
 
                     <Stack spacing={3} component="form" onSubmit={handleAddMember}>
                         <TextField
-                            label="Name"
+                            label="Full Name"
                             name="name"
                             value={newMember.name}
                             onChange={handleChange}
@@ -70,13 +70,13 @@ export default function AddMembers() {
                             fullWidth
                             required
                         >
-                            <MenuItem value="Nam">Nam</MenuItem>
-                            <MenuItem value="Nữ">Nữ</MenuItem>
-                            <MenuItem value="Khác">Khác</MenuItem>
+                            <MenuItem value="Male">Male</MenuItem>
+                            <MenuItem value="Female">Female</MenuItem>
+                            <MenuItem value="Other">Other</MenuItem>
                         </TextField>
 
                         <TextField
-                            label="Phone"
+                            label="Phone Number"
                             name="phone"
                             value={newMember.phone}
                             onChange={handleChange}
@@ -95,13 +95,17 @@ export default function AddMembers() {
                         />
 
                         <TextField
+                            select
                             label="Membership"
                             name="membership"
                             value={newMember.membership}
                             onChange={handleChange}
                             fullWidth
-                            placeholder="Gói tháng / Gói năm"
-                        />
+                            required
+                        >
+                            <MenuItem value="Monthly">Monthly</MenuItem>
+                            <MenuItem value="Yearly">Yearly</MenuItem>
+                        </TextField>
 
                         <Stack direction="row" spacing={2}>
                             <TextField
@@ -125,13 +129,18 @@ export default function AddMembers() {
                         </Stack>
 
                         <TextField
+                            select
                             label="Status"
                             name="status"
                             value={newMember.status}
                             onChange={handleChange}
                             fullWidth
-                            placeholder="Đang hoạt động / Ngưng hoạt động"
-                        />
+                            required
+                        >
+                            <MenuItem value="Active">Active</MenuItem>
+                            <MenuItem value="Inactive">Inactive</MenuItem>
+                            <MenuItem value="Pending">Pending</MenuItem>
+                        </TextField>
 
                         <Stack direction="row" spacing={2} justifyContent="center">
                             <Button

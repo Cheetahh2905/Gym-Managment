@@ -40,13 +40,24 @@
     {
       "id": "2",
       "name": "Trần Trọng Phúc",
-      "gender": "Nam",
+      "gender": "Male",
       "phone": "0789547871",
       "email": "pt002269@gmail.com",
-      "membership": "Gói năm",
+      "membership": "Yearly",
       "startDate": "2025-08-07",
       "endDate": "2026-08-07",
-      "status": "Đang hoạt động"
+      "status": "Active"
+    },
+    {
+      "id": "29fb",
+      "name": "Phạm Danh Nghĩa",
+      "gender": "Male",
+      "phone": "0908037839",
+      "email": "pdn@gmail.com",
+      "membership": "Yearly",
+      "startDate": "2025-09-14",
+      "endDate": "2026-09-14",
+      "status": "Active"
     }
   ],
   "transactions": [
@@ -65,6 +76,14 @@
       "amount": 200000,
       "description": "Mua phụ kiện",
       "date": "2025-08-10"
+    },
+    {
+      "id": "3571",
+      "description": "Bán gói tháng",
+      "amount": "5000000",
+      "type": "income",
+      "date": "2025-09-14",
+      "userId": "1"
     }
   ]
 }

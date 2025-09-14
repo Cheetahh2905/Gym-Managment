@@ -22,7 +22,12 @@ export default function Home() {
             <AppBar position="static" sx={{ background: "linear-gradient(90deg, #764ba2, #667eea)" }}>
                 <Toolbar>
                     <FitnessCenterIcon sx={{ mr: 1 }} />
-                    <Typography variant="h5" sx={{ flexGrow: 1, fontWeight: "bold" }}>
+                    <Typography
+                        variant="h5"
+                        component={Link}
+                        to="/home"
+                        sx={{ flexGrow: 1, fontWeight: "bold", textDecoration: "none", color: "inherit", cursor: "pointer" }}
+                    >
                         FitTrack
                     </Typography>
 
@@ -58,6 +63,17 @@ export default function Home() {
                         >
                             Transactions
                         </Button>
+                        <Button
+                            color="inherit"
+                            component={Link}
+                            to="/home/add-transaction"
+                            startIcon={<MonetizationOnIcon />}
+                            sx={{ fontWeight: "bold", "&:hover": { backgroundColor: "rgba(255,255,255,0.2)" } }}
+                        >
+                            + Add Transaction
+                        </Button>
+
+
 
                         <Button
                             color="inherit"
