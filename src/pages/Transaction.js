@@ -14,15 +14,7 @@ import {
     TableRow,
     IconButton,
     Grid,
-    Divider,
 } from "@mui/material";
-import {
-    PieChart,
-    Pie,
-    Cell,
-    Tooltip,
-    Legend,
-} from "recharts";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
@@ -71,7 +63,7 @@ export default function Transaction() {
         return <Typography>Loading...</Typography>;
     }
 
-    // Tính toán dữ liệu cho biểu đồ và tổng hợp
+    // Tính toán tổng hợp
     const income = transactions
         .filter((t) => t.type.toLowerCase() === "income")
         .reduce((sum, t) => sum + Number(t.amount), 0);
@@ -81,13 +73,6 @@ export default function Transaction() {
         .reduce((sum, t) => sum + Number(t.amount), 0);
 
     const balance = income - expense;
-
-    const chartData = [
-        { name: "Income", value: income },
-        { name: "Expense", value: expense },
-    ];
-
-    const COLORS = ["#4caf50", "#f44336"];
 
     function getMemberName(userId) {
         const user = users.find((u) => u.id === userId);
@@ -102,58 +87,52 @@ export default function Transaction() {
                 Transactions
             </Typography>
 
-            {/* Biểu đồ + Tổng hợp */}
+            {/* Summary */}
             <Paper sx={{ p: 3, mb: 3 }}>
                 <Grid container spacing={3}>
-                    <Grid item xs={12} md={6}>
-                        <Typography variant="h6" gutterBottom>
-                            Summary
-                        </Typography>
-                        <PieChart width={400} height={300}>
-                            <Pie
-                                data={chartData}
-                                dataKey="value"
-                                nameKey="name"
-                                cx="50%"
-                                cy="50%"
-                                outerRadius={100}
-                                label
-                            >
-                                {chartData.map((entry, index) => (
-                                    <Cell
-                                        key={`cell-${index}`}
-                                        fill={COLORS[index % COLORS.length]}
-                                    />
-                                ))}
-                            </Pie>
-                            <Tooltip />
-                            <Legend />
-                        </PieChart>
-                    </Grid>
-
-                    <Grid item xs={12} md={6}>
-                        <Typography variant="h6" gutterBottom>
-                            Totals
-                        </Typography>
-                        <Divider sx={{ mb: 2 }} />
-                        <Typography variant="body1" color="green">
-                            Total Income: {income.toLocaleString()} đ
-                        </Typography>
-                        <Typography variant="body1" color="red">
-                            Total Expense: {expense.toLocaleString()} đ
-                        </Typography>
-                        <Typography
-                            variant="body1"
-                            sx={{ fontWeight: "bold", mt: 2 }}
-                            color={balance >= 0 ? "green" : "red"}
+                    <Grid item xs={12} md={4}>
+                        <Paper
+                            sx={{
+                                p: 2,
+                                textAlign: "center",
+                                bgcolor: "#e8f5e9",
+                                color: "#2e7d32",
+                                fontWeight: "bold",
+                            }}
                         >
-                            Balance: {balance.toLocaleString()} đ
-                        </Typography>
+                            Thu nhập: {income.toLocaleString()} đ
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                        <Paper
+                            sx={{
+                                p: 2,
+                                textAlign: "center",
+                                bgcolor: "#ffebee",
+                                color: "#c62828",
+                                fontWeight: "bold",
+                            }}
+                        >
+                            Chi tiêu: {expense.toLocaleString()} đ
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                        <Paper
+                            sx={{
+                                p: 2,
+                                textAlign: "center",
+                                bgcolor: balance >= 0 ? "#e3f2fd" : "#fbe9e7",
+                                color: balance >= 0 ? "#1565c0" : "#d84315",
+                                fontWeight: "bold",
+                            }}
+                        >
+                            Số dư: {balance.toLocaleString()} đ
+                        </Paper>
                     </Grid>
                 </Grid>
             </Paper>
 
-            {/* Danh sách */}
+            {/* Transaction List */}
             <Paper sx={{ p: 3 }}>
                 <Typography variant="h6" gutterBottom>
                     Transaction List
@@ -176,7 +155,17 @@ export default function Transaction() {
                                 <TableRow key={t.id}>
                                     <TableCell>{t.date}</TableCell>
                                     <TableCell>{getMemberName(t.userId)}</TableCell>
-                                    <TableCell>{t.type}</TableCell>
+                                    <TableCell
+                                        sx={{
+                                            color:
+                                                t.type.toLowerCase() === "income"
+                                                    ? "green"
+                                                    : "red",
+                                            fontWeight: "bold",
+                                        }}
+                                    >
+                                        {t.type}
+                                    </TableCell>
                                     <TableCell>{t.description}</TableCell>
                                     <TableCell align="right">
                                         {Number(t.amount).toLocaleString()} đ
