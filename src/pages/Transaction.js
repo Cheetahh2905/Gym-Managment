@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getTransaction, deleteTransaction } from "../utils/Transaction";
+import { getAllTransactions, deleteTransaction } from "../utils/Transaction";
 import { getUsers } from "../utils/User";
 import { getMembers } from "../utils/Members";
 import {
@@ -33,7 +33,7 @@ export default function Transaction() {
             if (!currentUser) return;
 
             const [txData, userData, memberData] = await Promise.all([
-                getTransaction(),
+                getAllTransactions(),
                 getUsers(),
                 getMembers(),
             ]);
@@ -63,7 +63,6 @@ export default function Transaction() {
         return <Typography>Loading...</Typography>;
     }
 
-    // Tính toán tổng hợp
     const income = transactions
         .filter((t) => t.type.toLowerCase() === "income")
         .reduce((sum, t) => sum + Number(t.amount), 0);

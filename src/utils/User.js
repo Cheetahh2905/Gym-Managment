@@ -9,3 +9,8 @@ export async function postUser(newUser) {
     const response = await axios.post(URL_Users, newUser);
     return response.data;
 }
+
+export async function updateUser(id, updatedUser) {
+    const response = await axios.put(`${URL_Users}/${id}`, updatedUser);
+    return response.data;
+}

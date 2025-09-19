@@ -1,11 +1,11 @@
 import { Outlet, Link, useNavigate } from "react-router-dom";
-import { Box, AppBar, Toolbar, Button, Typography, Stack, IconButton } from "@mui/material";
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import GroupIcon from '@mui/icons-material/Group';
-import LogoutIcon from '@mui/icons-material/Logout';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import { Box, AppBar, Toolbar, Button, Typography, Stack, IconButton, Avatar } from "@mui/material";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import GroupIcon from "@mui/icons-material/Group";
+import LogoutIcon from "@mui/icons-material/Logout";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 export default function Home() {
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -13,7 +13,7 @@ export default function Home() {
 
     function logout() {
         localStorage.removeItem("currentUser");
-        navigate('/');
+        navigate("/");
     }
 
     return (
@@ -26,23 +26,34 @@ export default function Home() {
                         variant="h5"
                         component={Link}
                         to="/home"
-                        sx={{ flexGrow: 1, fontWeight: "bold", textDecoration: "none", color: "inherit", cursor: "pointer" }}
+                        sx={{
+                            flexGrow: 1,
+                            fontWeight: "bold",
+                            textDecoration: "none",
+                            color: "inherit",
+                            cursor: "pointer",
+                        }}
                     >
                         FitTrack
                     </Typography>
 
                     <Stack direction="row" spacing={2}>
+                        {/* Members / My Membership */}
                         <Button
                             color="inherit"
                             component={Link}
                             to="/home"
                             startIcon={<GroupIcon />}
-                            sx={{ fontWeight: "bold", "&:hover": { backgroundColor: "rgba(255,255,255,0.2)" } }}
+                            sx={{
+                                fontWeight: "bold",
+                                "&:hover": { backgroundColor: "rgba(255,255,255,0.2)" },
+                            }}
                         >
-                            Members
+                            {currentUser?.role === "admin" ? "Members" : "My Membership"}
                         </Button>
 
-                        {currentUser?.role === 'admin' && (
+                        {/* Add Member (admin only) */}
+                        {currentUser?.role === "admin" && (
                             <Button
                                 color="inherit"
                                 component={Link}
@@ -54,6 +65,7 @@ export default function Home() {
                             </Button>
                         )}
 
+                        {/* Transactions */}
                         <Button
                             color="inherit"
                             component={Link}
@@ -63,28 +75,42 @@ export default function Home() {
                         >
                             Transactions
                         </Button>
-                        <Button
-                            color="inherit"
-                            component={Link}
-                            to="/home/add-transaction"
-                            startIcon={<MonetizationOnIcon />}
-                            sx={{ fontWeight: "bold", "&:hover": { backgroundColor: "rgba(255,255,255,0.2)" } }}
-                        >
-                            + Add Transaction
-                        </Button>
 
+                        {/* Add Transaction (admin only) */}
+                        {currentUser?.role === "admin" && (
+                            <Button
+                                color="inherit"
+                                component={Link}
+                                to="/home/add-transaction"
+                                startIcon={<MonetizationOnIcon />}
+                                sx={{ fontWeight: "bold", "&:hover": { backgroundColor: "rgba(255,255,255,0.2)" } }}
+                            >
+                                + Add Transaction
+                            </Button>
+                        )}
 
-
+                        {/* Profile */}
                         <Button
                             color="inherit"
                             component={Link}
                             to="/home/profile"
-                            startIcon={<AccountCircleIcon />}
-                            sx={{ fontWeight: "bold", "&:hover": { backgroundColor: "rgba(255,255,255,0.2)" } }}
+                            startIcon={
+                                currentUser?.avatar ? (
+                                    <Avatar src={currentUser.avatar} sx={{ width: 24, height: 24 }} />
+                                ) : (
+                                    <AccountCircleIcon />
+                                )
+                            }
+                            sx={{
+                                fontWeight: "bold",
+                                textTransform: "none",
+                                "&:hover": { backgroundColor: "rgba(255,255,255,0.2)" },
+                            }}
                         >
-                            Profile
+                            {currentUser?.name || currentUser?.username}
                         </Button>
 
+                        {/* Logout */}
                         <IconButton color="inherit" onClick={logout} sx={{ ml: 1 }}>
                             <LogoutIcon />
                         </IconButton>

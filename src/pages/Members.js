@@ -1,15 +1,37 @@
 import { useEffect, useState } from "react";
 import { deleteMember, getMembers } from "../utils/Members";
-import { Box, Typography, Card, CardContent, CardActions, Button, Grid } from "@mui/material";
-import {useNavigate} from "react-router-dom";
+import {
+    Box,
+    Typography,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    Button,
+    Chip,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import GroupIcon from "@mui/icons-material/Group";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 
 export default function Members() {
     const [members, setMembers] = useState([]);
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     const navigate = useNavigate();
+
     useEffect(() => {
-        getMembers().then(setMembers);
-    }, []);
+        getMembers().then((data) => {
+            if (currentUser?.role === "admin") {
+                setMembers(data); // admin xem tất cả
+            } else {
+                const userMember = data.filter((m) => m.userId === currentUser.id);
+                setMembers(userMember); // user chỉ xem của mình
+            }
+        });
+    }, [currentUser]);
 
     function handleDeleteMember(memberId) {
         deleteMember(memberId).then(() => {
@@ -19,48 +41,118 @@ export default function Members() {
 
     return (
         <Box>
-            <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold", color: "#333", mb: 3 }}>
-                Member List
+            {/* Tiêu đề */}
+            <Typography
+                variant="h4"
+                gutterBottom
+                sx={{
+                    fontWeight: "bold",
+                    mb: 3,
+                    textAlign: "center",
+                    background: "linear-gradient(90deg, #ff512f, #dd2476)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    textTransform: "uppercase",
+                    letterSpacing: 2,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderBottom: "4px solid #dd2476",
+                    pb: 1,
+                }}
+            >
+                {currentUser?.role === "admin" ? (
+                    <>
+                        <GroupIcon sx={{ mr: 1, fontSize: 40, color: "#dd2476" }} />
+                        All Members
+                    </>
+                ) : (
+                    <>
+                        <FitnessCenterIcon sx={{ mr: 1, fontSize: 40, color: "#dd2476" }} />
+                        My Membership
+                    </>
+                )}
             </Typography>
 
-            <Grid container spacing={3}>
-                {members.map((member) => (
-                    <Grid key={member.id} sx={{ flex: "1 1 300px" }}>
-                        <Card sx={{ backgroundColor: "#f9f9f9", boxShadow: "0 4px 20px rgba(0,0,0,0.1)", borderRadius: 3 }}>
-                            <CardContent>
-                                <Typography variant="h6" sx={{ fontWeight: "bold" }}>{member.name}</Typography>
-                                <Typography>Gender: {member.gender}</Typography>
-                                <Typography>Phone: {member.phone}</Typography>
-                                <Typography>Email: {member.email}</Typography>
-                                <Typography>Membership: {member.membership}</Typography>
-                                <Typography>Start: {member.startDate} | End: {member.endDate}</Typography>
-                                <Typography>Status: {member.status}</Typography>
-                            </CardContent>
-                            <CardActions>
-                                {currentUser?.role === "admin" && (
-                                    <>
-                                        <Button size="small" color="error" variant="outlined" onClick={() => handleDeleteMember(member.id)}>
-                                            Delete
-                                        </Button>
+            {/* Bảng Members */}
+            <TableContainer component={Paper} sx={{ borderRadius: 3, boxShadow: 4 }}>
+                <Table>
+                    <TableHead>
+                        <TableRow sx={{ backgroundColor: "#1976d2" }}>
+                            <TableCell sx={{ color: "white", fontWeight: "bold" }}>Name</TableCell>
+                            <TableCell sx={{ color: "white", fontWeight: "bold" }}>Gender</TableCell>
+                            <TableCell sx={{ color: "white", fontWeight: "bold" }}>Phone</TableCell>
+                            <TableCell sx={{ color: "white", fontWeight: "bold" }}>Email</TableCell>
+                            <TableCell sx={{ color: "white", fontWeight: "bold" }}>Membership</TableCell>
+                            <TableCell sx={{ color: "white", fontWeight: "bold" }}>Duration</TableCell>
+                            <TableCell sx={{ color: "white", fontWeight: "bold" }}>Status</TableCell>
+                            <TableCell sx={{ color: "white", fontWeight: "bold" }}>Actions</TableCell>
+                        </TableRow>
+                    </TableHead>
 
+                    <TableBody>
+                        {members.map((member) => (
+                            <TableRow
+                                key={member.id}
+                                sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}
+                            >
+                                <TableCell>{member.name}</TableCell>
+                                <TableCell>{member.gender}</TableCell>
+                                <TableCell>{member.phone}</TableCell>
+                                <TableCell>{member.email}</TableCell>
+                                <TableCell>{member.membership}</TableCell>
+                                <TableCell>
+                                    {member.startDate} → {member.endDate}
+                                </TableCell>
+                                <TableCell>
+                                    <Chip
+                                        label={member.status}
+                                        color={
+                                            member.status.toLowerCase() === "active"
+                                                ? "success"
+                                                : "error"
+                                        }
+                                    />
+                                </TableCell>
+                                <TableCell>
+                                    {currentUser?.role === "admin" ? (
+                                        <>
+                                            <Button
+                                                size="small"
+                                                color="primary"
+                                                variant="outlined"
+                                                sx={{ mr: 1 }}
+                                                onClick={() =>
+                                                    navigate(`/home/edit-member/${member.id}`)
+                                                }
+                                            >
+                                                Edit
+                                            </Button>
+                                            <Button
+                                                size="small"
+                                                color="error"
+                                                variant="outlined"
+                                                onClick={() => handleDeleteMember(member.id)}
+                                            >
+                                                Delete
+                                            </Button>
+                                        </>
+                                    ) : (
                                         <Button
                                             size="small"
-                                            color="primary"
-                                            variant="outlined"
-                                            onClick={() => navigate(`/home/edit-member/${member.id}`)}
+                                            color="secondary"
+                                            variant="contained"
+                                            onClick={() => navigate(`/home/view-member/${member.id}`)}
                                         >
-                                            Edit
+                                            View
                                         </Button>
-                                    </>
-                                )}
-                                {currentUser?.role === "user" && (
-                                    <Button size="small" color="secondary" variant="contained">View</Button>
-                                )}
-                            </CardActions>
-                        </Card>
-                    </Grid>
-                ))}
-            </Grid>
+                                    )}
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </Box>
     );
 }
