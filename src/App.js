@@ -10,6 +10,7 @@ import EditMembers from "./pages/EditMembers";
 import AddTransaction from "./pages/AddTransaction";
 import EditTransaction from "./pages/EditTransaction";
 import Profile from "./pages/Profile";
+import ViewMember from "./pages/ViewMember";
 
 
 function App() {
@@ -35,6 +36,8 @@ function App() {
                 <Route path="add-transaction" element={<AddTransaction />} />
                 <Route path="edit-transaction/:id" element={<EditTransaction />} />
                 <Route path="profile" element={<Profile />} />
+                <Route path="view-member/:id" element={<ViewMember />} />
+
             </Route>
         </Routes>
     );

@@ -30,13 +30,13 @@
     {
       "id": "1",
       "name": "Nguyễn Văn A",
-      "gender": "Nam",
+      "gender": "Male",
       "phone": "0901234567",
       "email": "vana@gmail.com",
-      "membership": "Gói tháng",
+      "membership": "Monthly",
       "startDate": "2025-08-01",
       "endDate": "2025-08-31",
-      "status": "Ngưng hoạt động",
+      "status": "Active",
       "userId": "1"
     },
     {
@@ -64,7 +64,6 @@
       "userId": "3"
     }
   ],
-
   "transactions": [
     {
       "id": "1",

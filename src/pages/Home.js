@@ -65,16 +65,19 @@ export default function Home() {
                             </Button>
                         )}
 
-                        {/* Transactions */}
-                        <Button
-                            color="inherit"
-                            component={Link}
-                            to="/home/transactions"
-                            startIcon={<MonetizationOnIcon />}
-                            sx={{ fontWeight: "bold", "&:hover": { backgroundColor: "rgba(255,255,255,0.2)" } }}
-                        >
-                            Transactions
-                        </Button>
+                        {/* Transactions (admin only) */}
+                        {currentUser?.role === "admin" && (
+                            <Button
+                                color="inherit"
+                                component={Link}
+                                to="/home/transactions"
+                                startIcon={<MonetizationOnIcon />}
+                                sx={{ fontWeight: "bold", "&:hover": { backgroundColor: "rgba(255,255,255,0.2)" } }}
+                            >
+                                Transactions
+                            </Button>
+                        )}
+
 
                         {/* Add Transaction (admin only) */}
                         {currentUser?.role === "admin" && (
